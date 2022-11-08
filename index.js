@@ -8,7 +8,7 @@ const hbs = require('hbs');
 //use bodyParser middleware
 const bodyParser = require('body-parser');
 //use mysql database
-const mysql = require('mysql');
+const mysql = require('mysql2');
 const app = express();
 var fs = require('fs');
 var multer = require('multer');
@@ -17,12 +17,12 @@ var multer = require('multer');
 const PORT = process.env.PORT || 8000;
 //Create Connection
 const conn = mysql.createConnection({
-  host: process.env.DATABASE_URL,
+  host: process.env.DATABASE_HOST,
   user: process.env.DATABASE_USER,
   password: process.env.DATABASE_PASSWORD,
   database: process.env.DATABASE_NAME
 });
-
+//console.log(conn);return false;
 //connect to database
 conn.connect((err) =>{
   if(err) throw err;
@@ -48,7 +48,7 @@ app.use('/assets',express.static(__dirname + '/public'));
 //route for homepage
 app.get('/',(req, res) => {
 	const data = fs.readFileSync('./public/data/country.json', "utf8");
-  let sql = "SELECT * FROM amidia_users";
+  let sql = "SELECT * FROM amedia_users";
   let query = conn.query(sql, (err, results) => {
     if(err) throw err;
     res.render('candidate_page',{
@@ -61,7 +61,7 @@ app.get('/',(req, res) => {
 //route for insert data
 app.post('/save', upload.single("resume"), (req, res) => {
   let data = {name: req.body.name, dob: req.body.dob, contary: req.body.contary, file_upload: req.file.filename};
-  let sql = "INSERT INTO amidia_users SET ?";
+  let sql = "INSERT INTO amedia_users SET ?";
   let query = conn.query(sql, data,(err, results) => {
     if(err) throw err;
     res.redirect('/');
@@ -70,7 +70,7 @@ app.post('/save', upload.single("resume"), (req, res) => {
 
 //route for update data
 app.post('/update',(req, res) => {
-  let sql = "UPDATE amidia_users SET name='"+req.body.name+"', dob='"+req.body.dob+"' WHERE id="+req.body.id;
+  let sql = "UPDATE amedia_users SET name='"+req.body.name+"', dob='"+req.body.dob+"' WHERE id="+req.body.id;
   let query = conn.query(sql, (err, results) => {
     if(err) throw err;
     res.redirect('/');
@@ -79,7 +79,7 @@ app.post('/update',(req, res) => {
 
 //route for delete data
 app.post('/delete',(req, res) => {
-  let sql = "DELETE FROM amidia_users WHERE id="+req.body.product_id+"";
+  let sql = "DELETE FROM amedia_users WHERE id="+req.body.product_id+"";
   let query = conn.query(sql, (err, results) => {
     if(err) throw err;
       res.redirect('/');

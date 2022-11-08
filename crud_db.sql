@@ -29,7 +29,7 @@ CREATE DATABASE amedia;
 CREATE TABLE IF NOT EXISTS `amedia_users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(200) DEFAULT NULL,
-  `dob` int(11) DEFAULT NULL,
+  `dob` varchar(20) DEFAULT NULL,
   `contary` varchar(200) DEFAULT NULL,
   `file_upload` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`id`)

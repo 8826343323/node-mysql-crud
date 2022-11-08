@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 
 -- --------------------------------------------------------
 
+--- Create DATABASE
+CREATE DATABASE amedia;
 --
 -- tabel `amedia_users`
 --
